@@ -1,10 +1,12 @@
-package org.funwithsoftware.example;
+package org.funwithsoftware.frege_example;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class ExampleActivity extends Activity
+import org.funwithsoftware.frege_example.FregeCode;
+
+public class FregeActivity extends Activity
 {
     /** Called when the activity is first created. */
     @Override
@@ -13,6 +15,6 @@ public class ExampleActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         TextView textView = (TextView) findViewById(R.id.txt);
-        textView.append("\nI appended this text!");
+        textView.append(FregeCode.extraText("Android"));
     }
 }

@@ -1,0 +1,4 @@
+module org.funwithsoftware.frege_example.FregeCode where
+
+extraText :: String -> String
+extraText who = "\nHello, " ++ who ++ "!"

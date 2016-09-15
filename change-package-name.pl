@@ -21,8 +21,8 @@ if ($#ARGV != 1) {
 
 my ($newPkg, $newActivity) = @ARGV;
 
-my $oldPkg = "org.funwithsoftware.example";
-my $oldActivity = "ExampleActivity";
+my $oldPkg = "org.funwithsoftware.frege_example";
+my $oldActivity = "FregeActivity";
 
 sub slashify {
     my $arg = $_[0];

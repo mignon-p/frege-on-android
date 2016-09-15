@@ -12,10 +12,55 @@ android {
     compileSdkVersion 'android-21'
     buildToolsVersion '24.0.2'
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFile getDefaultProguardFile('proguard-android.txt')
+    defaultConfig {
+        minSdkVersion 21
+        multiDexEnabled true
+    }
+
+    sourceSets {
+        main {
+            // thought this might help, but it doesn't seem to
+            java.srcDirs.add 'src/frege'
         }
     }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.frege-lang:frege:3.23.401-g7c45277'
+    compile 'com.android.support:multidex:1.0.0'
+}
+
+clean {
+    delete 'src/frege'
+}
+
+// http://permalink.gmane.org/gmane.comp.lang.frege.general/1083
+
+project.afterEvaluate {
+    extensions.compileFrege = {
+        mkdir 'src/frege'
+        description = 'Compile Frege to Java'
+        fileTree(dir: 'src/main/frege', include: '**/*.fr').each { file ->
+            javaexec {
+                configurations.compile.resolve().each {
+                    //println it.toString()
+                    classpath += files(it.toString())
+                }
+                main = 'frege.compiler.Main'
+                args '-inline', '-d', 'src/frege', '-make', '-sp', 'src/main/frege', "$file.path"
+            }
+        }
+//        delete fileTree('src/frege') {
+//            include '**/*.java'
+//        }
+    }
+
+    compileDebugJavaWithJavac.doFirst { compileFrege() }
+    compileReleaseJavaWithJavac.doFirst { compileFrege() }
+    // compileDebugJavaWithJack.doFirst { compileFrege() }
+    // compileReleaseJavaWithJack.doFirst { compileFrege() }
 }
