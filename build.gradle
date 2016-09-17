@@ -19,8 +19,7 @@ android {
 
     sourceSets {
         main {
-            // thought this might help, but it doesn't seem to
-            java.srcDirs.add 'src/frege'
+            java.srcDirs += 'src/frege'
         }
     }
 }
