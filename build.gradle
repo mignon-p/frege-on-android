@@ -43,7 +43,9 @@ project.afterEvaluate {
     extensions.compileFrege = {
         mkdir 'src/frege'
         description = 'Compile Frege to Java'
-        fileTree(dir: 'src/main/frege', include: '**/*.fr').each { file ->
+        def tree = fileTree(dir: 'FregeAndroid/src', include: '**/*.fr')
+        tree += fileTree(dir: 'src/main/frege', include: '**/*.fr')
+        tree.each { file ->
             javaexec {
                 configurations.compile.resolve().each {
                     //println it.toString()
