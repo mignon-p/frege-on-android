@@ -15,6 +15,6 @@ public class FregeActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         TextView textView = (TextView) findViewById(R.id.txt);
-        textView.append(FregeCode.extraText("Android"));
+        FregeCode.appendToTextView(textView);
     }
 }

@@ -1,4 +1,6 @@
 module org.funwithsoftware.frege_example.FregeCode where
 
-extraText :: String -> String
-extraText who = "\nHello, " ++ who ++ "!"
+import frege.android.widget.TextView
+
+appendToTextView :: TextView -> IO ()
+appendToTextView tv = tv.append "\nThis text was appended by Frege code!"
