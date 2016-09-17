@@ -1,0 +1,3 @@
+[submodule "FregeAndroid"]
+	path = FregeAndroid
+	url = https://github.com/trilogysci/FregeAndroid.git
