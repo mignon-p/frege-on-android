@@ -43,16 +43,19 @@ project.afterEvaluate {
     extensions.compileFrege = {
         mkdir 'src/frege'
         description = 'Compile Frege to Java'
-        def tree = fileTree(dir: 'FregeAndroid/src', include: '**/*.fr')
-        tree += fileTree(dir: 'src/main/frege', include: '**/*.fr')
-        tree.each { file ->
-            javaexec {
-                configurations.compile.resolve().each {
-                    //println it.toString()
-                    classpath += files(it.toString())
+        ['FregeAndroid/src', 'src/main/frege'].each { sp ->
+            def spAbs = (new File(sp)).getAbsolutePath()
+            def tree = fileTree(dir: sp, include: '**/*.fr')
+            tree.each { file ->
+                javaexec {
+                    configurations.compile.resolve().each {
+                        classpath += files(it.toString())
+                    }
+                    main = 'frege.compiler.Main'
+                    def a = ['-inline', '-d', 'src/frege', '-make', '-sp', spAbs, file.path]
+                    println 'Frege compiler args: "' + a.join(' ') + '"'
+                    args (*a)
                 }
-                main = 'frege.compiler.Main'
-                args '-inline', '-d', 'src/frege', '-make', '-sp', 'src/main/frege', "$file.path"
             }
         }
 //        delete fileTree('src/frege') {
