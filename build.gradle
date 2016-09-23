@@ -52,7 +52,7 @@ project.afterEvaluate {
                         classpath += files(it.toString())
                     }
                     main = 'frege.compiler.Main'
-                    def a = ['-inline', '-d', 'src/frege', '-make', '-sp', spAbs, file.path]
+                    def a = ['-inline', '-d', 'src/frege', '-make', '-fp', '/Users/ppelleti/Library/Android/sdk/platforms/android-21/android.jar', '-sp', spAbs, file.path]
                     println 'Frege compiler args: "' + a.join(' ') + '"'
                     args (*a)
                 }
