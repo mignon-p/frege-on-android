@@ -43,20 +43,14 @@ project.afterEvaluate {
     extensions.compileFrege = {
         mkdir 'src/frege'
         description = 'Compile Frege to Java'
-        ['FregeAndroid/src', 'src/main/frege'].each { sp ->
-            def spAbs = (new File(sp)).getAbsolutePath()
-            def tree = fileTree(dir: sp, include: '**/*.fr')
-            tree.each { file ->
-                javaexec {
-                    configurations.compile.resolve().each {
-                        classpath += files(it.toString())
-                    }
-                    main = 'frege.compiler.Main'
-                    def a = ['-inline', '-d', 'src/frege', '-make', '-fp', '/Users/ppelleti/Library/Android/sdk/platforms/android-21/android.jar', '-sp', spAbs, file.path]
-                    println 'Frege compiler args: "' + a.join(' ') + '"'
-                    args (*a)
-                }
+        javaexec {
+            configurations.compile.resolve().each {
+                classpath += files(it.toString())
             }
+            main = 'frege.compiler.Main'
+            def a = ['-inline', '-d', 'src/frege', '-make', '-fp', '/Users/ppelleti/Library/Android/sdk/platforms/android-21/android.jar', '-sp', 'FregeAndroid/src:src/main/frege', 'src/main/frege/org/funwithsoftware/frege_example/FregeCode.fr']
+            println 'Frege compiler args: "' + a.join(' ') + '"'
+            args (*a)
         }
 //        delete fileTree('src/frege') {
 //            include '**/*.java'
