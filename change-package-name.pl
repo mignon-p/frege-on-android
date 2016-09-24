@@ -34,7 +34,8 @@ sub sourceFiles {
     my ($pkg, $activity) = @_;
     my $path = slashify($pkg);
     return ("src/main/java/$path/$activity.java",
-            "src/androidTest/java/$path/${activity}Test.java");
+            "src/androidTest/java/$path/${activity}Test.java",
+            "src/main/frege/$path/FregeCode.fr");
 }
 
 sub dirname {
@@ -70,20 +71,24 @@ sub replaceFile {
     close F or die "Can't close $file: $!\n";
 }
 
-my ($oldActivityFile, $oldTestFile) = sourceFiles($oldPkg, $oldActivity);
-my ($newActivityFile, $newTestFile) = sourceFiles($newPkg, $newActivity);
+my ($oldActivityFile, $oldTestFile, $oldFregeFile) = sourceFiles($oldPkg, $oldActivity);
+my ($newActivityFile, $newTestFile, $newFregeFile) = sourceFiles($newPkg, $newActivity);
 my $newActivityDir = dirname($newActivityFile);
 my $newTestDir = dirname($newTestFile);
+my $newFregeDir = dirname($newFregeFile);
 my @filesToModify = ($newActivityFile,
                      $newTestFile,
+                     $newFregeFile,
                      "src/main/AndroidManifest.xml",
                      "src/main/res/layout/main.xml",
                      "src/main/res/values/strings.xml");
 
 cmd("mkdir", "-p", $newActivityDir);
 cmd("mkdir", "-p", $newTestDir);
+cmd("mkdir", "-p", $newFregeDir);
 cmd("git", "mv", $oldActivityFile, $newActivityFile);
 cmd("git", "mv", $oldTestFile, $newTestFile);
+cmd("git", "mv", $oldFregeFile, $newFregeFile);
 
 foreach my $f (@filesToModify) {
     replaceFile ($f);
