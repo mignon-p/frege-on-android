@@ -37,7 +37,7 @@ clean {
     delete 'src/frege'
 }
 
-// http://permalink.gmane.org/gmane.comp.lang.frege.general/1083
+// https://groups.google.com/forum/#!msg/frege-programming-language/iIJeAwlf8UM/sqOcu7f6AwAJ
 
 project.afterEvaluate {
     extensions.compileFrege = {
@@ -50,12 +50,9 @@ project.afterEvaluate {
                     classpath += files(it.toString())
                 }
                 main = 'frege.compiler.Main'
-                args '-inline', '-d', 'src/frege', '-make', '-sp', 'src/main/frege', "$file.path"
+                args '-inline', '-d', 'src/frege', '-make', '-sp', 'src/main/frege', '-j', file.path
             }
         }
-//        delete fileTree('src/frege') {
-//            include '**/*.java'
-//        }
     }
 
     compileDebugJavaWithJavac.doFirst { compileFrege() }
